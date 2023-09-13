@@ -24,9 +24,8 @@ let [val,setval]=useState({
   img_url:""
 })
 
-console.log(val)
 
-  let key =props.params.id
+  let key=props.params.id
 
 
    let route=useRouter()
@@ -40,52 +39,10 @@ let [userdata,setuserdata]=useState([])
 
 
    
-console.log(userdata)
    
       
-   useEffect(()=>{
-    let config = {
-      method: 'get',
-      maxBodyLength: Infinity,
-      url: `http://localhost:3000/api/getuser/${key}`,
-      headers: { }
-    };
-    
-    axios.request(config)
-    .then((response) => {
-      console.log(JSON.stringify(response.data.data.username));
-      setedata(
-        response.data.data
-      )
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-   },[])
-    
 
-useEffect(()=>{
-  let config = {
-    method: 'get',
-    maxBodyLength: Infinity,
-    url: `http://localhost:3000/api/userpost/${key}`,
-    headers: { }
-  };
-  
-  axios.request(config)
-  .then((response) => {
-    console.log(JSON.stringify(response.data));
-setuserdata(
-    response.data.data
-) 
 
-})
-  .catch((error) => {
-    console.log(error);
-  });
-  
-
-},[])
 
 
  let edituser=()=>{
@@ -161,6 +118,50 @@ axios.request(config)
 
 }
 
+
+useEffect(()=>{
+  let config = {
+    method: 'get',
+    maxBodyLength: Infinity,
+    url: `http://localhost:3000/api/getuser/${key}`,
+    headers: { }
+  };
+  
+  axios.request(config)
+  .then((response) => {
+    console.log(JSON.stringify(response.data.data.username));
+    setedata(
+      response.data.data
+    )
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+ },[edituser])
+  
+
+ useEffect(()=>{
+  let config = {
+    method: 'get',
+    maxBodyLength: Infinity,
+    url: `http://localhost:3000/api/userpost/${key}`,
+    headers: { }
+  };
+  
+  axios.request(config)
+  .then((response) => {
+    console.log(JSON.stringify(response.data));
+setuserdata(
+    response.data.data
+) 
+
+})
+  .catch((error) => {
+    console.log(error);
+  });
+  
+
+},[editpost,deletepost])
 
 
 
@@ -404,7 +405,7 @@ axios.request(config)
                   Close
                 </Button>
                 <Button className="bg-gray-200 text-gray-500" onClick={(e)=>editpost(v._id)}>
-                  Sign in
+                  Edit
                 </Button>
               </ModalFooter>
             </>
@@ -461,13 +462,13 @@ axios.request(config)
                 <Input
                 onChange={(e)=>setdata({...data,[e.target.name]:e.target.value})}
                 name="username"
-                value={data.username}
+                value={edata.username}
                   autoFocus
                   endContent
                   label="username"
                   placeholder="Enter your username"
                   variant="bordered"
-                 
+                 required
                 />
                 <Input
                   endContent
@@ -479,6 +480,7 @@ axios.request(config)
                   type="text"
                   variant="bordered"
                   className="mt-5"
+                  required
                 />
 
                 </div>

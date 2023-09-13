@@ -5,7 +5,11 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 export default function AddPost (){
     let route =useRouter()
-let key =localStorage.getItem("user_id")
+    let key = null
+    if (typeof window !== 'undefined') {
+      // Perform localStorage action
+      key = window.localStorage.getItem("user_id")
+    }
 let [name,setname]=useState("")
 let [val,setval]=useState({
   title:"",
